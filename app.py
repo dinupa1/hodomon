@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import QGridLayout
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QPixmap
 # from functools import partial
 from hodomon import hodomon
 
@@ -24,6 +25,7 @@ class Window(QMainWindow):
     self.window = QWidget()
     self.window.setWindowTitle('HodoMon')
     self.layout = QGridLayout()
+    self.setGeometry(0, 0, 400, 300)
     
 #     self.hodo_names = ['H1YR', 'H1YL', 'H1XT', 'H1XB', 'H2XB', 'H2XT', 'H2YL', 'H2YR', 'H3XB', 'H3XT', 'H4Y1L-l', 'H4Y1L-r', 'H4Y1R-l', 'H4Y1R-r', 'H4Y2L-l', 'H4Y2L-r', 'H4Y2R-l', 'H4Y2R-r', 'H4XB-d', 'H4XB-u', 'H4XT-d', 'H4XT-u']
     
@@ -214,8 +216,17 @@ class Window(QMainWindow):
     #   pmt_button = QPushButton(self.pmt[i])
     #   self.layout.addWidget(pmt_button, i, 1)
     
-    msg = QLabel('')
-    self.layout.addWidget(msg)
+    # msg = QLabel('')
+    # self.layout.addWidget(msg)
+
+    self.label = QLabel(self)
+
+    self.pixmap = QPixmap(self.pmt_name + ".png")
+
+    self.label.setPixmap(self.pixmap)
+
+    self.label.resize(self.pixmap.width(),
+                      self.pixmap.height())
     
     self.window.setLayout(self.layout)
     self.window.show()
@@ -290,123 +301,123 @@ class Window(QMainWindow):
   
   # get plots
   def plot1(self):
-    pmt_name = self.hodo_name + self.pmt1.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt1.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot2(self):
-    pmt_name = self.hodo_name + self.pmt2.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt2.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
     
   def plot3(self):
-    pmt_name = self.hodo_name + self.pmt3.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt3.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot4(self):
-    pmt_name = self.hodo_name + self.pmt4.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt4.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot5(self):
-    pmt_name = self.hodo_name + self.pmt5.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt5.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot6(self):
-    pmt_name = self.hodo_name + self.pmt6.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt6.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot7(self):
-    pmt_name = self.hodo_name + self.pmt7.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt7.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot8(self):
-    pmt_name = self.hodo_name + self.pmt8.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt8.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot9(self):
-    pmt_name = self.hodo_name + self.pmt9.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt9.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot10(self):
-    pmt_name = self.hodo_name + self.pmt10.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt10.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot11(self):
-    pmt_name = self.hodo_name + self.pmt11.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt11.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot12(self):
-    pmt_name = self.hodo_name + self.pmt12.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt12.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot13(self):
-    pmt_name = self.hodo_name + self.pmt13.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt13.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot14(self):
-    pmt_name = self.hodo_name + self.pmt14.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt14.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot15(self):
-    pmt_name = self.hodo_name + self.pmt15.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt15.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot16(self):
-    pmt_name = self.hodo_name + self.pmt16.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt16.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot17(self):
-    pmt_name = self.hodo_name + self.pmt17.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt17.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
     
   def plot18(self):
-    pmt_name = self.hodo_name + self.pmt18.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt18.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot19(self):
-    pmt_name = self.hodo_name + self.pmt19.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt19.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
   
   def plot20(self):
-    pmt_name = self.hodo_name + self.pmt20.text() + "_MV"
+    self.pmt_name = self.hodo_name + self.pmt20.text() + "_MV"
     # print(pmt_name)
-    A = hodomon(pmt_name)
+    A = hodomon(self.pmt_name)
     A.display()
                    
 app = QApplication(sys.argv)
