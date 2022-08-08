@@ -124,7 +124,7 @@ class MyTableWidget(QWidget):
         self.pushButton_1_1 = QPushButton(" Hits ")
         self.pushButton_1_2 = QPushButton(" Efficiency ")
         self.pushButton_1_3 = QPushButton(" 1 ")
-        self.pushButton_1_3.clicked.connect(lambda:self.action("H1XB_1_MV"))
+        self.pushButton_1_3.clicked.connect(self.action("H1XB_1_MV"))
         self.pushButton_1_4 = QPushButton(" 2 ")
         self.pushButton_1_5 = QPushButton(" 3 ")
         self.pushButton_1_6 = QPushButton(" 4 ")
