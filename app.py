@@ -1,425 +1,349 @@
-#!/usr/bin/python3
-
-#
-# GUI for hodoscope monitoring
-#
-
-
 import sys
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtWidgets import QGridLayout
-from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QPixmap
-# from functools import partial
+from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QWidget, QAction, QGridLayout, QTabWidget, QVBoxLayout
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import pyqtSlot
 from hodomon import hodomon
 
 
-class Window(QMainWindow):
-  def __init__(self):
-    super().__init__()
-    
-    self.window = QWidget()
-    self.window.setWindowTitle('HodoMon')
-    self.layout = QGridLayout()
-    self.setGeometry(0, 0, 400, 300)
-    
-#     self.hodo_names = ['H1YR', 'H1YL', 'H1XT', 'H1XB', 'H2XB', 'H2XT', 'H2YL', 'H2YR', 'H3XB', 'H3XT', 'H4Y1L-l', 'H4Y1L-r', 'H4Y1R-l', 'H4Y1R-r', 'H4Y2L-l', 'H4Y2L-r', 'H4Y2R-l', 'H4Y2R-r', 'H4XB-d', 'H4XB-u', 'H4XT-d', 'H4XT-u']
-    
-#     # PMT no.
-#     self.pmt = []
-#     self.hodo_button = []
-    
-    # hodoscope buttons
-    self.hodo0 = QPushButton('H1YR')
-    self.hodo0.clicked.connect(self.action0)
-    self.layout.addWidget(self.hodo0, 0, 0)
-    
-    self.hodo1 = QPushButton('H1YL')
-    self.hodo1.clicked.connect(self.action1)
-    self.layout.addWidget(self.hodo1, 1, 0)
-    
-    self.hodo2 = QPushButton('H1XT')
-    self.hodo2.clicked.connect(self.action2)
-    self.layout.addWidget(self.hodo2, 2, 0)
-    
-    self.hodo3 = QPushButton('H1XB')
-    self.hodo3.clicked.connect(self.action3)
-    self.layout.addWidget(self.hodo3, 3, 0)
-    
-    self.hodo4 = QPushButton('H2XB')
-    self.hodo4.clicked.connect(self.action4)
-    self.layout.addWidget(self.hodo4, 4, 0)
-    
-    self.hodo5 = QPushButton('H2XT')
-    self.hodo5.clicked.connect(self.action5)
-    self.layout.addWidget(self.hodo5, 5, 0)
-    
-    self.hodo6 = QPushButton('H2YL')
-    self.hodo6.clicked.connect(self.action6)
-    self.layout.addWidget(self.hodo6, 6, 0)
-    
-    self.hodo7 = QPushButton('H2YR')
-    self.hodo7.clicked.connect(self.action7)
-    self.layout.addWidget(self.hodo7, 7, 0)
-    
-    self.hodo8 = QPushButton('H3XB')
-    self.hodo8.clicked.connect(self.action8)
-    self.layout.addWidget(self.hodo8, 8, 0)
-    
-    self.hodo9 = QPushButton('H3XT')
-    self.hodo9.clicked.connect(self.action9)
-    self.layout.addWidget(self.hodo9, 9, 0)
-    
-    self.hodo10 = QPushButton('H4Y1L-l')
-    self.hodo10.clicked.connect(self.action10)
-    self.layout.addWidget(self.hodo10, 10, 0)
-    
-    self.hodo11 = QPushButton('H4Y1L-r')
-    self.hodo11.clicked.connect(self.action11)
-    self.layout.addWidget(self.hodo11, 11, 0)
-    
-    self.hodo12 = QPushButton('H4Y1R-l')
-    self.hodo12.clicked.connect(self.action12)
-    self.layout.addWidget(self.hodo12, 12, 0)
-    
-    self.hodo13 = QPushButton('H4Y1R-r')
-    self.hodo13.clicked.connect(self.action13)
-    self.layout.addWidget(self.hodo13, 13, 0)
-    
-    self.hodo14 = QPushButton('H4Y2L-l')
-    self.hodo14.clicked.connect(self.action14)
-    self.layout.addWidget(self.hodo14, 14, 0)
-    
-    self.hodo15 = QPushButton('H4Y2L-r')
-    self.hodo15.clicked.connect(self.action15)
-    self.layout.addWidget(self.hodo15, 15, 0)
-    
-    self.hodo16 = QPushButton('H4Y2R-l')
-    self.hodo16.clicked.connect(self.action16)
-    self.layout.addWidget(self.hodo16, 16, 0)
-    
-    self.hodo17 = QPushButton('H4Y2R-r')
-    self.hodo17.clicked.connect(self.action17)
-    self.layout.addWidget(self.hodo17, 17, 0)
-    
-    self.hodo18 = QPushButton('H4XB-d')
-    self.hodo18.clicked.connect(self.action18)
-    self.layout.addWidget(self.hodo18, 18, 0)
-    
-    self.hodo19 = QPushButton('H4XB-u')
-    self.hodo19.clicked.connect(self.action19)
-    self.layout.addWidget(self.hodo19, 19, 0)
-    
-    self.hodo20 = QPushButton('H4XT-d')
-    self.hodo20.clicked.connect(self.action20)
-    self.layout.addWidget(self.hodo20, 20, 0)
-    
-    self.hodo21 = QPushButton('H4XT-u')
-    self.hodo21.clicked.connect(self.action21)
-    self.layout.addWidget(self.hodo21, 21, 0)
-    
-    # PMT buttons
-    self.pmt1 = QPushButton('1')
-    self.pmt1.clicked.connect(self.plot1)
-    self.layout.addWidget(self.pmt1, 0, 1)
-    
-    self.pmt2 = QPushButton('2')
-    self.pmt2.clicked.connect(self.plot2)
-    self.layout.addWidget(self.pmt2, 1, 1)
-    
-    self.pmt3 = QPushButton('3')
-    self.pmt3.clicked.connect(self.plot3)
-    self.layout.addWidget(self.pmt3, 2, 1)
-    
-    self.pmt4 = QPushButton('4')
-    self.pmt4.clicked.connect(self.plot4)
-    self.layout.addWidget(self.pmt4, 3, 1)
-    
-    self.pmt5 = QPushButton('5')
-    self.pmt5.clicked.connect(self.plot5)
-    self.layout.addWidget(self.pmt5, 4, 1)
-    
-    self.pmt6 = QPushButton('6')
-    self.pmt6.clicked.connect(self.plot6)
-    self.layout.addWidget(self.pmt6, 5, 1)
-    
-    self.pmt7 = QPushButton('7')
-    self.pmt7.clicked.connect(self.plot7)
-    self.layout.addWidget(self.pmt7, 6, 1)
-    
-    self.pmt8 = QPushButton('8')
-    self.pmt8.clicked.connect(self.plot8)
-    self.layout.addWidget(self.pmt8, 7, 1)
-    
-    self.pmt9 = QPushButton('9')
-    self.pmt9.clicked.connect(self.plot9)
-    self.layout.addWidget(self.pmt9, 8, 1)
-    
-    self.pmt10 = QPushButton('10')
-    self.pmt10.clicked.connect(self.plot10)
-    self.layout.addWidget(self.pmt10, 9, 1)
-    
-    self.pmt11 = QPushButton('11')
-    self.pmt11.clicked.connect(self.plot11)
-    self.layout.addWidget(self.pmt11, 10, 1)
-    
-    self.pmt12 = QPushButton('12')
-    self.pmt12.clicked.connect(self.plot12)
-    self.layout.addWidget(self.pmt12, 11, 1)
-    
-    self.pmt13 = QPushButton('13')
-    self.pmt13.clicked.connect(self.plot13)
-    self.layout.addWidget(self.pmt13, 12, 1)
-    
-    self.pmt14 = QPushButton('14')
-    self.pmt14.clicked.connect(self.plot14)
-    self.layout.addWidget(self.pmt14, 13, 1)
-    
-    self.pmt15 = QPushButton('15')
-    self.pmt15.clicked.connect(self.plot15)
-    self.layout.addWidget(self.pmt15, 14, 1)
-    
-    self.pmt16 = QPushButton('16')
-    self.pmt16.clicked.connect(self.plot16)
-    self.layout.addWidget(self.pmt16, 15, 1)
-    
-    self.pmt17 = QPushButton('17')
-    self.pmt17.clicked.connect(self.plot17)
-    self.layout.addWidget(self.pmt17, 16, 1)
-    
-    self.pmt18 = QPushButton('18')
-    self.pmt18.clicked.connect(self.plot18)
-    self.layout.addWidget(self.pmt18, 17, 1)
-    
-    self.pmt19 = QPushButton('19')
-    self.pmt19.clicked.connect(self.plot19)
-    self.layout.addWidget(self.pmt19, 18, 1)
-    
-    self.pmt20 = QPushButton('20')
-    self.pmt20.clicked.connect(self.plot20)
-    self.layout.addWidget(self.pmt20, 19, 1)
-    
-    # for i in range(0, 20):
-    #   self.pmt.append(str(i+1))
-    
-    # # hodoscope planes
-    # for i in range(0, 22):
-    #   self.hodo_button.append(QPushButton(self.hodo_names[i]))
-    #   self.hodo_button[i].clicked.connect(self.show)
-    #   self.layout.addWidget(self.hodo_button[i], i, 0)
-    
-    # for i in range(0, 20):
-    #   pmt_button = QPushButton(self.pmt[i])
-    #   self.layout.addWidget(pmt_button, i, 1)
-    
-    # msg = QLabel('')
-    # self.layout.addWidget(msg)
+class App(QMainWindow):
 
-    self.label = QLabel(self)
+    def __init__(self):
+        super().__init__()
+        self.title = 'HodoMon'
+        self.left = 0
+        self.top = 0
+        self.width = 900
+        self.height = 100
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
 
-    self.pixmap = QPixmap(self.pmt_name + ".png")
+        self.table_widget = MyTableWidget(self)
+        self.setCentralWidget(self.table_widget)
 
-    self.label.setPixmap(self.pixmap)
+        self.show()
 
-    self.label.resize(self.pixmap.width(),
-                      self.pixmap.height())
-    
-    self.window.setLayout(self.layout)
-    self.window.show()
-  
-  # hodo button actions
-  def action0(self):
-    self.hodo_name = self.hodo0.text() + "_"
-    
-  def action1(self):
-    self.hodo_name = self.hodo1.text() + "_"
-    
-  def action2(self):
-    self.hodo_name = self.hodo2.text() + "_"
-    
-  def action3(self):
-    self.hodo_name = self.hodo3.text() + "_"
-  
-  def action4(self):
-    self.hodo_name = self.hodo4.text() + "_"
-  
-  def action5(self):
-    self.hodo_name = self.hodo5.text() + "_"
-  
-  def action6(self):
-    self.hodo_name = self.hodo6.text() + "_"
-  
-  def action7(self):
-    self.hodo_name = self.hodo7.text() + "_"
-  
-  def action8(self):
-    self.hodo_name = self.hodo8.text() + "_"
-  
-  def action9(self):
-    self.hodo_name = self.hodo9.text() + "_"
-  
-  def action10(self):
-    self.hodo_name = self.hodo10.text() + "_"
-  
-  def action11(self):
-    self.hodo_name = self.hodo11.text() + "_"
-  
-  def action12(self):
-    self.hodo_name = self.hodo12.text() + "_"
-  
-  def action13(self):
-    self.hodo_name = self.hodo13.text() + "_"
-  
-  def action14(self):
-    self.hodo_name = self.hodo14.text() + "_"
-  
-  def action15(self):
-    self.hodo_name = self.hodo15.text() + "_"
-  
-  def action16(self):
-    self.hodo_name = self.hodo16.text() + "_"
-  
-  def action17(self):
-    self.hodo_name = self.hodo17.text() + "_"
-  
-  def action18(self):
-    self.hodo_name = self.hodo18.text() + "_"
-  
-  def action19(self):
-    self.hodo_name = self.hodo19.text() + "_"
-    
-  def action20(self):
-    self.hodo_name = self.hodo20.text() + "_"
-  
-  def action21(self):
-    self.hodo_name = self.hodo21.text() + "_"
-    
-  
-  # get plots
-  def plot1(self):
-    self.pmt_name = self.hodo_name + self.pmt1.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot2(self):
-    self.pmt_name = self.hodo_name + self.pmt2.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-    
-  def plot3(self):
-    self.pmt_name = self.hodo_name + self.pmt3.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot4(self):
-    self.pmt_name = self.hodo_name + self.pmt4.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot5(self):
-    self.pmt_name = self.hodo_name + self.pmt5.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot6(self):
-    self.pmt_name = self.hodo_name + self.pmt6.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot7(self):
-    self.pmt_name = self.hodo_name + self.pmt7.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot8(self):
-    self.pmt_name = self.hodo_name + self.pmt8.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot9(self):
-    self.pmt_name = self.hodo_name + self.pmt9.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot10(self):
-    self.pmt_name = self.hodo_name + self.pmt10.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot11(self):
-    self.pmt_name = self.hodo_name + self.pmt11.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot12(self):
-    self.pmt_name = self.hodo_name + self.pmt12.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot13(self):
-    self.pmt_name = self.hodo_name + self.pmt13.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot14(self):
-    self.pmt_name = self.hodo_name + self.pmt14.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot15(self):
-    self.pmt_name = self.hodo_name + self.pmt15.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot16(self):
-    self.pmt_name = self.hodo_name + self.pmt16.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot17(self):
-    self.pmt_name = self.hodo_name + self.pmt17.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-    
-  def plot18(self):
-    self.pmt_name = self.hodo_name + self.pmt18.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot19(self):
-    self.pmt_name = self.hodo_name + self.pmt19.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-  
-  def plot20(self):
-    self.pmt_name = self.hodo_name + self.pmt20.text() + "_MV"
-    # print(pmt_name)
-    A = hodomon(self.pmt_name)
-    A.display()
-                   
-app = QApplication(sys.argv)
-window = Window()
-sys.exit(app.exec())
+
+class MyTableWidget(QWidget):
+
+    def __init__(self, parent):
+        super(QWidget, self).__init__(parent)
+        self.layout = QVBoxLayout(self)
+
+        # Initialize tab screen
+        self.tabs = QTabWidget()
+        # Display voltage
+        self.tab0 = QWidget()
+        # H1 hodoscope
+        self.tabs1 = QTabWidget()
+        self.tab1 = QWidget()
+        self.tab2 = QWidget()
+        self.tab3 = QWidget()
+        self.tab4 = QWidget()
+        # H1 hodoscope
+        self.tabs2 = QTabWidget()
+        self.tab5 = QWidget()
+        self.tab6 = QWidget()
+        self.tab7 = QWidget()
+        self.tab8 = QWidget()
+        # H3 hodoscope
+        self.tabs3 = QTabWidget()
+        self.tab9 = QWidget()
+        self.tab10 = QWidget()
+        # H4 hodoscope
+        self.tabs4 = QTabWidget()
+        self.tab11 = QWidget()
+        self.tab12 = QWidget()
+        self.tab13 = QWidget()
+        self.tab14 = QWidget()
+        self.tab15 = QWidget()
+        self.tab16 = QWidget()
+        self.tab17 = QWidget()
+        self.tab18 = QWidget()
+        self.tab19 = QWidget()
+        self.tab20 = QWidget()
+        self.tab21 = QWidget()
+        self.tab22 = QWidget()
+        # Expert Button
+        self.tab23 = QWidget()
+        self.tabs.resize(300, 200)
+
+        # Add tabs
+        self.tabs.addTab(self.tab0, "Voltage")
+        ######
+        self.tabs1.addTab(self.tab1, "H1XB")
+        self.tabs1.addTab(self.tab2, "H1XT")
+        self.tabs1.addTab(self.tab3, "H1YL")
+        self.tabs1.addTab(self.tab4, "H1YR")
+        self.tabs.addTab(self.tabs1, "H1")
+        ######
+        self.tabs2.addTab(self.tab5, "H2XT")
+        self.tabs2.addTab(self.tab6, "H2XB")
+        self.tabs2.addTab(self.tab7, "H2YR")
+        self.tabs2.addTab(self.tab8, "H2YL")
+        self.tabs.addTab(self.tabs2, "H2")
+        ######
+        self.tabs3.addTab(self.tab9, "H3XB")
+        self.tabs3.addTab(self.tab10, "H3XT")
+        self.tabs.addTab(self.tabs3, "H3")
+        ######
+        self.tabs4.addTab(self.tab11, "H4Y1L-l")
+        self.tabs4.addTab(self.tab12, "H4Y1L-r")
+        self.tabs4.addTab(self.tab13, "H4Y1R-l")
+        self.tabs4.addTab(self.tab14, "H4Y1R-r")
+        self.tabs4.addTab(self.tab15, "H4Y2L-l")
+        self.tabs4.addTab(self.tab16, "H4Y2L-r")
+        self.tabs4.addTab(self.tab17, "H4Y2R-l")
+        self.tabs4.addTab(self.tab18, "H4Y2R-r")
+        self.tabs4.addTab(self.tab19, "H4XB-d")
+        self.tabs4.addTab(self.tab20, "H4XB-u")
+        self.tabs4.addTab(self.tab21, "H4XT-d")
+        self.tabs4.addTab(self.tab22, "H4XT-u")
+        self.tabs.addTab(self.tabs4, "H4")
+        #
+        self.tabs.addTab(self.tab23, "EXPERT")
+
+        # Create expert tab
+        self.tab23.layout = QGridLayout(self)
+        self.pushButton_23_0 = QPushButton("ON")
+        self.pushButton_23_1 = QPushButton("OFF")
+        self.pushButton_23_2 = QPushButton("SET-NOMINAL")
+        self.pushButton_23_3 = QPushButton("SET-CHANNEL")
+        self.pushButton_23_4 = QPushButton("SET-PLATEAU")
+        #
+        self.tab23.layout.addWidget(self.pushButton_23_0, 0, 0)
+        self.tab23.layout.addWidget(self.pushButton_23_1, 0, 1)
+        self.tab23.layout.addWidget(self.pushButton_23_2, 0, 2)
+        self.tab23.layout.addWidget(self.pushButton_23_3, 1, 0)
+        self.tab23.layout.addWidget(self.pushButton_23_4, 1, 1)
+        #
+        self.tab23.setLayout(self.tab23.layout)
+
+        # Create H1XB PMTs
+        self.tab1.layout = QGridLayout(self)
+        self.pushButton_1_1 = QPushButton(" Hits ")
+        self.pushButton_1_2 = QPushButton(" Efficiency ")
+        self.pushButton_1_3 = QPushButton(" 1 ")
+        self.pushButton_1_3.clicked.connect(lambda:self.action("H1XB_1_MV"))
+        self.pushButton_1_4 = QPushButton(" 2 ")
+        self.pushButton_1_5 = QPushButton(" 3 ")
+        self.pushButton_1_6 = QPushButton(" 4 ")
+        self.pushButton_1_7 = QPushButton(" 5 ")
+        self.pushButton_1_8 = QPushButton(" 6 ")
+        self.pushButton_1_9 = QPushButton(" 7 ")
+        self.pushButton_1_10 = QPushButton(" 8 ")
+        self.pushButton_1_11 = QPushButton(" 9 ")
+        self.pushButton_1_12 = QPushButton(" 10 ")
+        self.pushButton_1_13 = QPushButton(" 11 ")
+        self.pushButton_1_14 = QPushButton(" 12 ")
+        self.pushButton_1_15 = QPushButton(" 13 ")
+        self.pushButton_1_16 = QPushButton(" 14 ")
+        self.pushButton_1_17 = QPushButton(" 15 ")
+        self.pushButton_1_18 = QPushButton(" 16 ")
+        self.pushButton_1_19 = QPushButton(" 17 ")
+        self.pushButton_1_20 = QPushButton(" 18 ")
+        self.pushButton_1_21 = QPushButton(" 19 ")
+        self.pushButton_1_22 = QPushButton(" 20 ")
+        self.pushButton_1_23 = QPushButton(" 21 ")
+        self.pushButton_1_24 = QPushButton(" 22 ")
+        self.pushButton_1_25 = QPushButton(" 23 ")
+        #
+        self.tab1.layout.addWidget(self.pushButton_1_1, 0, 0)
+        self.tab1.layout.addWidget(self.pushButton_1_2, 0, 1)
+        self.tab1.layout.addWidget(self.pushButton_1_3, 1, 0)
+        self.tab1.layout.addWidget(self.pushButton_1_4, 1, 1)
+        self.tab1.layout.addWidget(self.pushButton_1_5, 1, 2)
+        self.tab1.layout.addWidget(self.pushButton_1_6, 1, 3)
+        self.tab1.layout.addWidget(self.pushButton_1_7, 1, 4)
+        self.tab1.layout.addWidget(self.pushButton_1_8, 2, 0)
+        self.tab1.layout.addWidget(self.pushButton_1_9, 2, 1)
+        self.tab1.layout.addWidget(self.pushButton_1_10, 2, 2)
+        self.tab1.layout.addWidget(self.pushButton_1_11, 2, 3)
+        self.tab1.layout.addWidget(self.pushButton_1_12, 2, 4)
+        self.tab1.layout.addWidget(self.pushButton_1_13, 3, 0)
+        self.tab1.layout.addWidget(self.pushButton_1_14, 3, 1)
+        self.tab1.layout.addWidget(self.pushButton_1_15, 3, 2)
+        self.tab1.layout.addWidget(self.pushButton_1_16, 3, 3)
+        self.tab1.layout.addWidget(self.pushButton_1_17, 3, 4)
+        self.tab1.layout.addWidget(self.pushButton_1_18, 4, 0)
+        self.tab1.layout.addWidget(self.pushButton_1_19, 4, 1)
+        self.tab1.layout.addWidget(self.pushButton_1_20, 4, 2)
+        self.tab1.layout.addWidget(self.pushButton_1_21, 4, 3)
+        self.tab1.layout.addWidget(self.pushButton_1_22, 4, 4)
+        self.tab1.layout.addWidget(self.pushButton_1_23, 5, 0)
+        self.tab1.layout.addWidget(self.pushButton_1_24, 5, 1)
+        self.tab1.layout.addWidget(self.pushButton_1_25, 5, 2)
+        #
+        self.tab1.setLayout(self.tab1.layout)
+
+        # Create H1XT PMTs
+        self.tab2.layout = QGridLayout(self)
+        self.pushButton_2_1 = QPushButton(" Hits ")
+        self.pushButton_2_2 = QPushButton(" Efficiency ")
+        self.pushButton_2_3 = QPushButton(" 1 ")
+        self.pushButton_2_4 = QPushButton(" 2 ")
+        self.pushButton_2_5 = QPushButton(" 3 ")
+        self.pushButton_2_6 = QPushButton(" 4 ")
+        self.pushButton_2_7 = QPushButton(" 5 ")
+        self.pushButton_2_8 = QPushButton(" 6 ")
+        self.pushButton_2_9 = QPushButton(" 7 ")
+        self.pushButton_2_10 = QPushButton(" 8 ")
+        self.pushButton_2_11 = QPushButton(" 9 ")
+        self.pushButton_2_12 = QPushButton(" 10 ")
+        self.pushButton_2_13 = QPushButton(" 11 ")
+        self.pushButton_2_14 = QPushButton(" 12 ")
+        self.pushButton_2_15 = QPushButton(" 13 ")
+        self.pushButton_2_16 = QPushButton(" 14 ")
+        self.pushButton_2_17 = QPushButton(" 15 ")
+        self.pushButton_2_18 = QPushButton(" 16 ")
+        self.pushButton_2_19 = QPushButton(" 17 ")
+        self.pushButton_2_20 = QPushButton(" 18 ")
+        self.pushButton_2_21 = QPushButton(" 19 ")
+        self.pushButton_2_22 = QPushButton(" 20 ")
+        self.pushButton_2_23 = QPushButton(" 21 ")
+        self.pushButton_2_24 = QPushButton(" 22 ")
+        self.pushButton_2_25 = QPushButton(" 23 ")
+        #
+        self.tab2.layout.addWidget(self.pushButton_2_1, 0, 0)
+        self.tab2.layout.addWidget(self.pushButton_2_2, 0, 1)
+        self.tab2.layout.addWidget(self.pushButton_2_3, 1, 0)
+        self.tab2.layout.addWidget(self.pushButton_2_4, 1, 1)
+        self.tab2.layout.addWidget(self.pushButton_2_5, 1, 2)
+        self.tab2.layout.addWidget(self.pushButton_2_6, 1, 3)
+        self.tab2.layout.addWidget(self.pushButton_2_7, 1, 4)
+        self.tab2.layout.addWidget(self.pushButton_2_8, 2, 0)
+        self.tab2.layout.addWidget(self.pushButton_2_9, 2, 1)
+        self.tab2.layout.addWidget(self.pushButton_2_10, 2, 2)
+        self.tab2.layout.addWidget(self.pushButton_2_11, 2, 3)
+        self.tab2.layout.addWidget(self.pushButton_2_12, 2, 4)
+        self.tab2.layout.addWidget(self.pushButton_2_13, 3, 0)
+        self.tab2.layout.addWidget(self.pushButton_2_14, 3, 1)
+        self.tab2.layout.addWidget(self.pushButton_2_15, 3, 2)
+        self.tab2.layout.addWidget(self.pushButton_2_16, 3, 3)
+        self.tab2.layout.addWidget(self.pushButton_2_17, 3, 4)
+        self.tab2.layout.addWidget(self.pushButton_2_18, 4, 0)
+        self.tab2.layout.addWidget(self.pushButton_2_19, 4, 1)
+        self.tab2.layout.addWidget(self.pushButton_2_20, 4, 2)
+        self.tab2.layout.addWidget(self.pushButton_2_21, 4, 3)
+        self.tab2.layout.addWidget(self.pushButton_2_22, 4, 4)
+        self.tab2.layout.addWidget(self.pushButton_2_23, 5, 0)
+        self.tab2.layout.addWidget(self.pushButton_2_24, 5, 1)
+        self.tab2.layout.addWidget(self.pushButton_2_25, 5, 2)
+        #
+        self.tab2.setLayout(self.tab2.layout)
+
+        # Create H1YL PMTs
+        self.tab3.layout = QGridLayout(self)
+        self.pushButton_3_1 = QPushButton(" Hits ")
+        self.pushButton_3_2 = QPushButton(" Efficiency ")
+        self.pushButton_3_3 = QPushButton(" 1 ")
+        self.pushButton_3_4 = QPushButton(" 2 ")
+        self.pushButton_3_5 = QPushButton(" 3 ")
+        self.pushButton_3_6 = QPushButton(" 4 ")
+        self.pushButton_3_7 = QPushButton(" 5 ")
+        self.pushButton_3_8 = QPushButton(" 6 ")
+        self.pushButton_3_9 = QPushButton(" 7 ")
+        self.pushButton_3_10 = QPushButton(" 8 ")
+        self.pushButton_3_11 = QPushButton(" 9 ")
+        self.pushButton_3_12 = QPushButton(" 10 ")
+        self.pushButton_3_13 = QPushButton(" 11 ")
+        self.pushButton_3_14 = QPushButton(" 12 ")
+        self.pushButton_3_15 = QPushButton(" 13 ")
+        self.pushButton_3_16 = QPushButton(" 14 ")
+        self.pushButton_3_17 = QPushButton(" 15 ")
+        self.pushButton_3_18 = QPushButton(" 16 ")
+        self.pushButton_3_19 = QPushButton(" 17 ")
+        self.pushButton_3_20 = QPushButton(" 18 ")
+        self.pushButton_3_21 = QPushButton(" 19 ")
+        self.pushButton_3_22 = QPushButton(" 20 ")
+        #
+        self.tab3.layout.addWidget(self.pushButton_3_1, 0, 0)
+        self.tab3.layout.addWidget(self.pushButton_3_2, 0, 1)
+        self.tab3.layout.addWidget(self.pushButton_3_3, 1, 0)
+        self.tab3.layout.addWidget(self.pushButton_3_4, 1, 1)
+        self.tab3.layout.addWidget(self.pushButton_3_5, 1, 2)
+        self.tab3.layout.addWidget(self.pushButton_3_6, 1, 3)
+        self.tab3.layout.addWidget(self.pushButton_3_7, 1, 4)
+        self.tab3.layout.addWidget(self.pushButton_3_8, 2, 0)
+        self.tab3.layout.addWidget(self.pushButton_3_9, 2, 1)
+        self.tab3.layout.addWidget(self.pushButton_3_10, 2, 2)
+        self.tab3.layout.addWidget(self.pushButton_3_11, 2, 3)
+        self.tab3.layout.addWidget(self.pushButton_3_12, 2, 4)
+        self.tab3.layout.addWidget(self.pushButton_3_13, 3, 0)
+        self.tab3.layout.addWidget(self.pushButton_3_14, 3, 1)
+        self.tab3.layout.addWidget(self.pushButton_3_15, 3, 2)
+        self.tab3.layout.addWidget(self.pushButton_3_16, 3, 3)
+        self.tab3.layout.addWidget(self.pushButton_3_17, 3, 4)
+        self.tab3.layout.addWidget(self.pushButton_3_18, 4, 0)
+        self.tab3.layout.addWidget(self.pushButton_3_19, 4, 1)
+        self.tab3.layout.addWidget(self.pushButton_3_20, 4, 2)
+        self.tab3.layout.addWidget(self.pushButton_3_21, 4, 3)
+        self.tab3.layout.addWidget(self.pushButton_3_22, 4, 4)
+        #
+        self.tab3.setLayout(self.tab3.layout)
+
+        # Create H1YR PMTs
+        self.tab4.layout = QGridLayout(self)
+        self.pushButton_4_1 = QPushButton(" Hits ")
+        self.pushButton_4_2 = QPushButton(" Efficiency ")
+        self.pushButton_4_3 = QPushButton(" 1 ")
+        self.pushButton_4_4 = QPushButton(" 2 ")
+        self.pushButton_4_5 = QPushButton(" 3 ")
+        self.pushButton_4_6 = QPushButton(" 4 ")
+        self.pushButton_4_7 = QPushButton(" 5 ")
+        self.pushButton_4_8 = QPushButton(" 6 ")
+        self.pushButton_4_9 = QPushButton(" 7 ")
+        self.pushButton_4_10 = QPushButton(" 8 ")
+        self.pushButton_4_11 = QPushButton(" 9 ")
+        self.pushButton_4_12 = QPushButton(" 10 ")
+        self.pushButton_4_13 = QPushButton(" 11 ")
+        self.pushButton_4_14 = QPushButton(" 12 ")
+        self.pushButton_4_15 = QPushButton(" 13 ")
+        self.pushButton_4_16 = QPushButton(" 14 ")
+        self.pushButton_4_17 = QPushButton(" 15 ")
+        self.pushButton_4_18 = QPushButton(" 16 ")
+        self.pushButton_4_19 = QPushButton(" 17 ")
+        self.pushButton_4_20 = QPushButton(" 18 ")
+        self.pushButton_4_21 = QPushButton(" 19 ")
+        self.pushButton_4_22 = QPushButton(" 20 ")
+        #
+        self.tab4.layout.addWidget(self.pushButton_4_1, 0, 0)
+        self.tab4.layout.addWidget(self.pushButton_4_2, 0, 1)
+        self.tab4.layout.addWidget(self.pushButton_4_3, 1, 0)
+        self.tab4.layout.addWidget(self.pushButton_4_4, 1, 1)
+        self.tab4.layout.addWidget(self.pushButton_4_5, 1, 2)
+        self.tab4.layout.addWidget(self.pushButton_4_6, 1, 3)
+        self.tab4.layout.addWidget(self.pushButton_4_7, 1, 4)
+        self.tab4.layout.addWidget(self.pushButton_4_8, 2, 0)
+        self.tab4.layout.addWidget(self.pushButton_4_9, 2, 1)
+        self.tab4.layout.addWidget(self.pushButton_4_10, 2, 2)
+        self.tab4.layout.addWidget(self.pushButton_4_11, 2, 3)
+        self.tab4.layout.addWidget(self.pushButton_4_12, 2, 4)
+        self.tab4.layout.addWidget(self.pushButton_4_13, 3, 0)
+        self.tab4.layout.addWidget(self.pushButton_4_14, 3, 1)
+        self.tab4.layout.addWidget(self.pushButton_4_15, 3, 2)
+        self.tab4.layout.addWidget(self.pushButton_4_16, 3, 3)
+        self.tab4.layout.addWidget(self.pushButton_4_17, 3, 4)
+        self.tab4.layout.addWidget(self.pushButton_4_18, 4, 0)
+        self.tab4.layout.addWidget(self.pushButton_4_19, 4, 1)
+        self.tab4.layout.addWidget(self.pushButton_4_20, 4, 2)
+        self.tab4.layout.addWidget(self.pushButton_4_21, 4, 3)
+        self.tab4.layout.addWidget(self.pushButton_4_22, 4, 4)
+        #
+        self.tab4.setLayout(self.tab4.layout)
+
+
+        # Add tabs to widget
+        self.layout.addWidget(self.tabs)
+        self.setLayout(self.layout)
+
+    @pyqtSlot()
+    def action(self, name):
+        A = hodomon(name)
+        A.display()
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = App()
+    sys.exit(app.exec_())

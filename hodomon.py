@@ -71,8 +71,8 @@ class hodomon(object):
     plt.xlabel("time")
     plt.ylabel("voltage (V)")
     # plt.tight_layout()
-    # fig.show()
-    fig.savefig(self.channel+(".png"))
+    fig.show()
+    # fig.savefig(self.channel+(".png"))
     # print(type(self.date_time), type(self.voltage))
     
 # A = hodomon("H4Y1L-l_3_MV")
