@@ -1,0 +1,136 @@
+\documentclass[10pt, xcolor={dvipsnames}, aspectratio = 169]{beamer}
+%\usetheme{Berlin}
+\usefonttheme{serif}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{mathrsfs}
+%\usepackage{tikz}
+%\usetikzlibrary{shapes.geometric, arrows}
+\usepackage[font=tiny]{caption}
+%\usepackage{mathrsfs}
+\usepackage[style=science]{biblatex}
+%\usepackage{standalone}
+
+%\bibliography{ref}
+
+\mode<presentation>
+{
+	\definecolor{nmsured}{RGB}{137,18,22}
+	\setbeamercolor{frametitle}{fg=White, bg=nmsured}
+	\setbeamercolor{title}{fg=White, bg=nmsured}
+	\setbeamercolor{background canvas}{bg=White}
+	\setbeamercolor{section number projected}{bg=White, fg=nmsured}
+	\setbeamercolor{subsection number projected}{bg=White, fg=nmsured}
+	\setbeamertemplate{items}{\color{nmsured}$\blacksquare$}
+	\setbeamercolor{text}{fg=nmsured}
+	\setbeamertemplate{footline}[frame number]
+	\setbeamertemplate{caption}[numbered]
+}
+
+\title{NMSU Update}
+\author{Dinupa}
+
+\begin{document}
+
+	\begin{frame}
+		\maketitle
+	\end{frame}
+
+	\begin{frame}[fragile]{Qt App fro Hodoscope Monitoring}
+		\begin{textblock}{14.0}(1.0, 2.0)
+			\begin{itemize}
+				\item \verb|Qt5| framework(\verb|python/c++|) was used.
+				\item \verb|Qt| frmaework is;
+				\begin{itemize}
+					\item Cross-platform software for creating graphical user interfaces (KDE Plasma DE).
+					\item Easy-to-read code
+					\item Rich choice of modules.
+					\item Multiple libraries and high level of control.
+					\item API for easier development.
+				\end{itemize}
+				\item Drawback: can be slow with \verb|ssh|. Better to use \href{https://github.com/Textualize/textual}{textual}.
+				\item \href{https://github.com/dinupa1/hodomon}{github}
+			\end{itemize}
+		\end{textblock}
+	\end{frame}
+
+	\begin{frame}[fragile]{CoDaS-HEP: Columnar Data Analysis}
+		\begin{textblock}{14.0}(1.0, 2.0)
+			\begin{itemize}
+				\item A common feature among all array-oriented languages (except \verb|Fortran 90|) is that they are also interactive languages.
+				\item Typically, you perform one operation on a whole dataset, see what that does to the distribution, then apply another (easy to debug).
+				\item \verb|ROOT| :
+				\begin{itemize}
+					\item \verb|RDataFrame|
+					\item \verb|RVec|
+				\end{itemize}
+				\item \verb|python|
+				\begin{itemize}
+					\item \verb|numpy|
+					\item \verb|pandas|
+					\item \verb|Awkward Array|
+				\end{itemize}
+				\item \href{https://github.com/jpivarski-talks/2022-08-03-codas-hep-columnar-tutorial#readme}{github}
+				\item New kid in the block: \verb|julia| (\url{https://github.com/JuliaLang/julia})
+			\end{itemize}
+		\end{textblock}
+	\end{frame}
+
+	\begin{frame}[fragile]{CoDaS-HEP: Vectorization/ Optimization}
+		\begin{textblock}{14.0}(1.0, 2.0)
+			\begin{itemize}
+				\item Vectorization;
+				\begin{figure}
+					\centering
+					\includegraphics[width=14.0cm]{pic2}
+				\end{figure}
+			\end{itemize}
+		\end{textblock}
+	\end{frame}
+
+	\begin{frame}[fragile]
+		\begin{textblock}{14.0}(1.0, 2.0)
+			\begin{itemize}
+				\item Parallel processing: \verb|OpenMP| for multi-threading.
+				\item \href{https://github.com/tgmattso/ParProgForPhys}{github}
+				\begin{figure}
+					\centering
+					\includegraphics[width=10.0cm]{pic3}
+				\end{figure}
+			\end{itemize}
+		\end{textblock}
+	\end{frame}
+
+	\begin{frame}[fragile]{CoDaS-HEP: Neural Networks}
+		\begin{textblock}{14.0}(1.0, 2.0)
+			\begin{itemize}
+				\item \href{https://github.com/savvy379/codashep_ml_2022}{github}
+				\begin{figure}
+					\centering
+					\includegraphics[width=12.0cm]{pic4}
+				\end{figure}
+			\end{itemize}
+		\end{textblock}
+	\end{frame}
+
+	\begin{frame}
+		\begin{textblock}{12.0}(1.0, 1.0)
+			\begin{figure}
+					\centering
+					\includegraphics[width=12.0cm]{pic5}
+				\end{figure}
+		\end{textblock}
+	\end{frame}
+
+	\begin{frame}[fragile]{For SpinQuest}
+		\begin{textblock}{14.0}(1.0, 2.0)
+			\begin{itemize}
+				\item Vectorize/Parallelize the \verb|KTracker|.
+				\item Use \verb|GNN| for track building.
+			\end{itemize}
+		\end{textblock}
+	\end{frame}
+
+\end{document}
