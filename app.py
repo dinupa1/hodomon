@@ -464,7 +464,7 @@ class expert(QWidget):
     def on_key(self, name):
         os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
         os.system("./on " + name)
-        os.system("cd -")
+        # os.system("cd -")
 
     @pyqtSlot()
     def off_key(self, name):
@@ -476,19 +476,19 @@ class expert(QWidget):
     def set_nominal_key(self, name):
         os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
         os.system("./set-nominal " + name)
-        os.system("cd -")
+        # os.system("cd -")
 
     @pyqtSlot()
     def status_key(self, name):
         os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
         os.system("./satus " + name)
-        os.system("cd -")
+        # os.system("cd -")
 
     @pyqtSlot()
     def monitor_key(self, name):
         os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
         os.system("./monitor " + name)
-        os.system("cd -")
+        # os.system("cd -")
 
 
 class voltage(QWidget):
@@ -505,7 +505,7 @@ class voltage(QWidget):
     def voltage_key(self):
         os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
         os.system("wish hodomon.tcl & ")
-        os.system("cd -")
+        # os.system("cd -")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
