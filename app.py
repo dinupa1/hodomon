@@ -462,32 +462,32 @@ class expert(QWidget):
 
     @pyqtSlot()
     def on_key(self, name):
-        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
-        os.system("./on " + name)
+        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/ && ./on " + name)
+        # os.system("./on " + name)
         # os.system("cd -")
 
     @pyqtSlot()
     def off_key(self, name):
-        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
-        os.system("./off " + name)
-        os.system("cd -")
+        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/ && ./off " + name)
+        # os.system("./off " + name)
+        # os.system("cd -")
 
     @pyqtSlot()
     def set_nominal_key(self, name):
-        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
-        os.system("./set-nominal " + name)
+        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/ && ./set-nominal " + name)
+        # os.system("./set-nominal " + name)
         # os.system("cd -")
 
     @pyqtSlot()
     def status_key(self, name):
-        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
-        os.system("./satus " + name)
+        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/ && ./status " + name)
+        # os.system("./satus " + name)
         # os.system("cd -")
 
     @pyqtSlot()
     def monitor_key(self, name):
-        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
-        os.system("./monitor " + name)
+        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/ && ./monitor " + name)
+        # os.system("./monitor " + name)
         # os.system("cd -")
 
 
@@ -503,8 +503,8 @@ class voltage(QWidget):
 
     @pyqtSlot()
     def voltage_key(self):
-        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/")
-        os.system("wish hodomon.tcl & ")
+        os.system("cd /data2/e1039/daq/slowcontrols/lecroy/hv/ && wish hodomon.tcl &")
+        # os.system("wish hodomon.tcl & ")
         # os.system("cd -")
 
 if __name__ == "__main__":
