@@ -8,12 +8,14 @@ import os
 import glob
 import csv
 import time
-import datetime
-import numpy as np
+# import datetime
+# import numpy as np
 import matplotlib.pyplot as plt
 
 class hodomon(object):
-  "read the voltages from slow crontrols and plot the voltage with time"
+  """
+  read the voltages from slow crontrols and plot the voltage with time
+  """
   def __init__(self, pmt):
     super(hodomon, self).__init__()
     self.channel = pmt
@@ -70,6 +72,7 @@ class hodomon(object):
     plt.ylabel("voltage (V)")
     # plt.tight_layout()
     fig.show()
+    # fig.savefig(self.channel+(".png"))
     # print(type(self.date_time), type(self.voltage))
     
 # A = hodomon("H4Y1L-l_3_MV")
